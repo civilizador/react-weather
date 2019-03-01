@@ -16,7 +16,8 @@ import keys from "./config/keys";
             sky:null,
             humid: null,
             desc:null,
-            country:null
+            country:null,
+            state: null,
         }
         // Getting User's current location information from window object and passing it as a  'position' object to callback function.
         window.navigator.geolocation.getCurrentPosition(
@@ -43,14 +44,17 @@ import keys from "./config/keys";
                  }
             });
             console.log(data_weather.observations.location[0].observation[0])
-            this.setState({lat: position.coords.latitude});
-            this.setState({lng: position.coords.longitude});
-            this.setState({cel: data_weather.observations.location[0].observation[0].temperature });
-            this.setState({far: (data_weather.observations.location[0].observation[0].temperature*9/5) + 32 });
-            this.setState({city: position.coords.latitude});
-            this.setState( {sky: JSON.stringify(data_weather.observations.location[0].observation[0].skyDescription) });
-            this.setState({desc: JSON.stringify(data_weather.observations.location[0].observation[0].temperatureDesc) });
-            this.setState({country: position.coords.longitude});
+            // Updating states with setState
+                this.setState({lat: position.coords.latitude});
+                this.setState({lng: position.coords.longitude});
+                this.setState({cel: data_weather.observations.location[0].observation[0].temperature });
+                this.setState({far: (data_weather.observations.location[0].observation[0].temperature*9/5) + 32 });
+                this.setState({humid: data_weather.observations.location[0].observation[0].humidity});
+                this.setState({city: data_weather.observations.location[0].observation[0].city});
+                this.setState({sky:  data_weather.observations.location[0].observation[0].skyDescription });
+                this.setState({desc: data_weather.observations.location[0].observation[0].temperatureDesc });
+                this.setState({country: data_weather.observations.location[0].observation[0].country});
+                this.setState({state: data_weather.observations.location[0].observation[0].state});
              },
             (err) => { console.log(err); alert('Please select city manualy or change location permissions') }
         )
@@ -58,12 +62,16 @@ import keys from "./config/keys";
     render() {
         return (
             <div>
+                <h2> City: {this.state.city} </h2>
+                <h2> State: {this.state.state} </h2>
                 <h2> Latitude: {this.state.lat} </h2>
-                 <h2> Latitude: {this.state.lng} </h2>
+                <h2> Latitude: {this.state.lng} </h2>
                 <h2> Temp C: {this.state.cel} </h2>
                 <h2> Temp F: {this.state.far} </h2>
+                <h2> Humidity: {this.state.humid} </h2>
                 <h2> Sky: {this.state.sky} </h2>
                 <h2> Weather status: {this.state.desc} </h2>
+
             </div>
             )
     } 

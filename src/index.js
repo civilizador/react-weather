@@ -18,6 +18,7 @@ import keys from "./config/keys";
             desc:null,
             country:null,
             state: null,
+            errMessage:null,
         }
         // Getting User's current location information from window object and passing it as a  'position' object to callback function.
         window.navigator.geolocation.getCurrentPosition(
@@ -38,9 +39,6 @@ import keys from "./config/keys";
                 },
                 success: function (data) {
                     return data;
-                    console.log(JSON.stringify(data.observations.location[0].observation[0]));
-                     // console.log(JSON.stringify(data.observations.location[0].observation[0].humidity));
-                     // console.log(JSON.stringify(data.observations.location[0].observation[0].iconLink));
                  }
             });
             console.log(data_weather.observations.location[0].observation[0])
@@ -56,10 +54,23 @@ import keys from "./config/keys";
                 this.setState({country: data_weather.observations.location[0].observation[0].country});
                 this.setState({state: data_weather.observations.location[0].observation[0].state});
              },
-            (err) => { console.log(err); alert('Please select city manualy or change location permissions') }
+            (err) => { 
+                 this.setState({errMessage: err.message});
+             }
         )
     }
     render() {
+        if(this.state.errMessage) {
+            return (
+                <div>
+                    <h2> Following Error Occured:  </h2>
+                    <h2> {this.state.errMessage}  </h2>
+                    <h2> Please reset Location sharing settings or follow the link to know how: </h2>
+                        <h4> <a href='https://superuser.com/questions/591758/how-do-i-make-chrome-forget-a-no-to-geolocation-on-a-site'> Reset Refused location sharing permission on Chrome</a>  </h4>
+                    
+                </div>
+            )
+        }
         return (
             <div>
                 <h2> City: {this.state.city} </h2>

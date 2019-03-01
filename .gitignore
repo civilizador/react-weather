@@ -3,6 +3,9 @@
 # dependencies
 /node_modules
 /config
+/config/keys.js
+keys
+keys.js
 /.pnp
 .pnp.js
 

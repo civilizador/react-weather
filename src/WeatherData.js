@@ -1,18 +1,31 @@
 import React from 'react';
+import Table from './Table'
+
 const WeatherData = (props) => {
-    return (
-                <div>
-                    <h2> City: {props.city} </h2>
-                    <h2> State: {props.state} </h2>
-                    <h2> Latitude: {props.lat} </h2>
-                    <h2> Latitude: {props.lng} </h2>
-                    <h2> Temp C: {props.cel} </h2>
-                    <h2> Temp F: {props.far} </h2>
-                    <h2> Humidity: {props.humid} </h2>
-                    <h2> Sky: {props.sky} </h2>
-                    <h2> Weather status: {props.desc} </h2>
-    
+     return (
+        <div>
+            <div id="mainframeDiv">
+                <div className="btn-group" role="group" aria-label="Basic example">
+                  <button id='F' type="button" className="btn btn-secondary">F</button>
+                  <button id='C' type="button" className="btn btn-secondary">C</button>
                 </div>
+                    <div className="col-md-12 col-sm-12">
+                        <h1>  {props.system == 'imperial' ? 'Temp F:' + props.far : 'Temp C:' + props.cel} </h1>
+                        <img src={props.icon}/>
+                        <h2> It is {props.desc} in</h2> 
+                        <h2> {props.city} , {props.state}</h2>
+                    </div>
+                    <Table      humid   ={props.humid} 
+                                sky     ={props.sky} 
+                                high    ={props.high}
+                                low     ={props.low}
+                                wind    ={props.wind}
+                                icon    ={props.icon}
+                                />
+            </div>
+            
+        </div>
+ 
         );
 }
 export default WeatherData;

@@ -1,0 +1,19 @@
+#mainframeDiv {
+     width:60vw;
+     height: auto;
+     margin-top: 20vh;
+     padding-top: 5vh;
+     margin-left: 20%;
+     text-align: center;
+     background: url('https://images.unsplash.com/photo-1509114397022-ed747cca3f65?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1575&q=80')
+}
+h2,h1 {
+    color: ivory;
+}
+div.inline {
+    display: inline-block!important;
+}
+.table {
+    margin-top: 8vh;
+    margin-bottom: 8vh;
+} 

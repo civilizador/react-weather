@@ -2,18 +2,18 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import keys from "./config/keys";
-import WeatherData from './WeatherData'
- 
+import WeatherData from './WeatherData';
+  
     // defining main class component App
     class App extends React.Component {
     
     // Method 1 of initializing state - No consructor function!
         state = {
                 lat:null, lng:null,
-                cel:null, far:null,
+                cel:null, far:null, low:null, high:null,
                 city:null, state:null, country:null,
                 sky:null, desc:null, humid:null, wind:null,
-                errMessage:null, icon:null
+                errMessage:null, icon:null, system:null
         }
                 
     // Method 2 of initializing state - With constructor function!
@@ -69,6 +69,10 @@ import WeatherData from './WeatherData'
                 this.setState({state: data_weather.observations.location[0].observation[0].state});
                 this.setState({icon: data_weather.observations.location[0].observation[0].iconLink });
                 this.setState({wind: data_weather.observations.location[0].observation[0].windSpeed});
+                this.setState({low: data_weather.observations.location[0].observation[0].lowTemperature});
+                this.setState({high: data_weather.observations.location[0].observation[0].highTemperature});
+                this.setState({system: 'imperial'});
+ 
              },
             (err) => { 
                  this.setState({errMessage: err.message});
@@ -85,6 +89,8 @@ import WeatherData from './WeatherData'
     // -----------------------------------
         // componentDidUpdate method will be called once component gets updates and being rerendered.    
     componentDidUpdate() {
+                //  document.getElementById("C").addEventListener('click', this.setState({system: 'metric'}));
+
         console.log('Component was UPDATED with weather data or was denied to provide it successfully')        
     }
     // ----------------------------------- 
@@ -109,17 +115,19 @@ import WeatherData from './WeatherData'
         }
         if(!this.state.errMessage && this.state.lat) {
             return  <WeatherData city   ={this.state.city}
-                                lng     ={this.state.lng}
-                                lat     ={this.state.lat}  
+                                country ={this.state.country}
                                 state   ={this.state.state}  
                                 far     ={this.state.far} 
+                                cel     ={this.state.cel}
+                                desc    ={this.state.desc}
                                 humid   ={this.state.humid} 
                                 sky     ={this.state.sky} 
-                                desc    ={this.state.desc}
-                                country ={this.state.country}
-                                cel     ={this.state.cel}
+                                high    ={this.state.high}
+                                low     ={this.state.low}
                                 wind    ={this.state.wind}
-                                icon    ={this.speed.icon} />
+                                icon    ={this.state.icon}
+                                system  ={this.state.system}
+                                />
         }
         return (
             <div> 

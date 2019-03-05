@@ -30,7 +30,7 @@ import React from 'react';
                                     <tr>
                                         <td>
                                             <div className="ui image header">
-                                              <i class="fas fa-temperature-low"></i>
+                                              <i className="fas fa-temperature-low"></i>
                                                 <div className="content">
                                                        <h2> Lowest Temp:  </h2>
                                                 </div>
@@ -40,7 +40,7 @@ import React from 'react';
                                         </td>
                                         <td>
                                             <div className="ui image header">
-                                              <i class="fas fa-temperature-high"></i>
+                                              <i className="fas fa-temperature-high"></i>
                                                 <div className="content">
                                                        <h2> Highest Temp:  </h2>
                                                 </div>

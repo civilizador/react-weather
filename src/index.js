@@ -3,19 +3,16 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import keys from "./config/keys";
 import WeatherData from './WeatherData';
-  
+import Spinner from './Spinner';
     // defining main class component App
     class App extends React.Component {
     
     // Method 1 of initializing state - No consructor function!
         state = {
-                lat:null, lng:null,
-                cel:null, far:null, low:null, high:null,
-                city:null, state:null, country:null,
-                sky:null, desc:null, humid:null, wind:null,
+                lat:null, lng:null, cel:null, far:null, low:null, high:null,
+                city:null, state:null, country:null, sky:null, desc:null, humid:null, wind:null,
                 errMessage:null, icon:null, system:null
         }
-                
     // Method 2 of initializing state - With constructor function!
         // constructor(props) {
         //     super(props);
@@ -32,8 +29,10 @@ import WeatherData from './WeatherData';
         // componentDidMount method will be called once component is initilay rendered.
         // In this particular case, once App component did render we will get users
         // geoLocation data and then perfrm api call to get appropriate weather data
+    
     componentDidMount() {
-        console.log('Component was mounted successfully');
+        
+       
         // Getting User's current location information from window object and passing it as a  'position' object to callback function.
         window.navigator.geolocation.getCurrentPosition(
             async (position) => {
@@ -55,7 +54,6 @@ import WeatherData from './WeatherData';
                     return data;
                  }
             });
-            console.log(data_weather.observations.location[0].observation[0])
             // Updating states with setState
                 this.setState({lat: position.coords.latitude});
                 this.setState({lng: position.coords.longitude});
@@ -72,7 +70,6 @@ import WeatherData from './WeatherData';
                 this.setState({low: data_weather.observations.location[0].observation[0].lowTemperature});
                 this.setState({high: data_weather.observations.location[0].observation[0].highTemperature});
                 this.setState({system: 'imperial'});
- 
              },
             (err) => { 
                  this.setState({errMessage: err.message});
@@ -83,58 +80,53 @@ import WeatherData from './WeatherData';
     //      End of componentDidMount
     // -----------------------------------
     
-    
-    // ----------------------------------- 
-    //      Start of componentDidUpdate
-    // -----------------------------------
-        // componentDidUpdate method will be called once component gets updates and being rerendered.    
+    // componentDidUpdate method will be called once component gets updates and being rerendered.    
     componentDidUpdate() {
-                //  document.getElementById("C").addEventListener('click', this.setState({system: 'metric'}));
-
         console.log('Component was UPDATED with weather data or was denied to provide it successfully')        
     }
-    // ----------------------------------- 
-    //      End of componentDidUpdate
-    // -----------------------------------
-    
-    
-// React Render method
-        // rendering html elements using JSX. 
-    render() {
+    // Method that deturmines what exactly to render depending on location sharing settings user choosed.
+    renderContent() {
         if(this.state.errMessage && !this.state.lat) {
         // We have condiitonal rendering here. If there is an error and no coordinates was recieved render error related elements.
-            return (
-                    <div>
-                        <h2> Following Error Occured:  </h2>
-                        <h2> {this.state.errMessage}  </h2>
-                        <h2> Please reset Location sharing settings or follow the link to know how: </h2>
-                            <h4> <a href='https://superuser.com/questions/591758/how-do-i-make-chrome-forget-a-no-to-geolocation-on-a-site'> Reset Refused location sharing permission on Chrome</a>  </h4>
-                        
-                    </div>
+            return ( <Spinner message={this.state.errMessage}/>
             )
         }
         if(!this.state.errMessage && this.state.lat) {
-            return  <WeatherData city   ={this.state.city}
-                                country ={this.state.country}
-                                state   ={this.state.state}  
-                                far     ={this.state.far} 
-                                cel     ={this.state.cel}
-                                desc    ={this.state.desc}
-                                humid   ={this.state.humid} 
-                                sky     ={this.state.sky} 
-                                high    ={this.state.high}
-                                low     ={this.state.low}
-                                wind    ={this.state.wind}
-                                icon    ={this.state.icon}
-                                system  ={this.state.system}
-                                />
-        }
-        return (
-            <div> 
-                <h2> loading . . . </h2>
+            let d = new Date(); const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            return  (
+            <div>
+                <div id="mainframeDiv">
+                <h2 className='rightAlign'>{d.getDate()} {months[d.getMonth()]}</h2>
+                    <button id='F'  className="btn btn-secondary"> F </button>
+                    <button id='C'   className="btn btn-secondary"> C </button>
+                    <WeatherData   city    ={this.state.city}
+                                    country ={this.state.country}
+                                    state   ={this.state.state}  
+                                    far     ={this.state.far} 
+                                    cel     ={this.state.cel}
+                                    desc    ={this.state.desc}
+                                    humid   ={this.state.humid} 
+                                    sky     ={this.state.sky} 
+                                    high    ={this.state.high}
+                                    low     ={this.state.low}
+                                    wind    ={this.state.wind}
+                                    icon    ={this.state.icon}
+                                    system  ={this.state.system} />
+                 </div>
             </div>
-                
+                )
+        }
+        return <Spinner message='Please allow location sharing in order app to work'/> 
+    }
+    
+// React Render method
+    render() {
+        return(
+            <div>
+                {this.renderContent()}
+            </div>
             )
+        
     } 
 }
      

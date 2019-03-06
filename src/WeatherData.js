@@ -10,14 +10,10 @@ const WeatherData = (props) => {
                         <h2> It is {props.desc} in</h2> 
                         <h2> {props.city} , {props.state}</h2>
                     </div>
-                    <Table      humid   ={props.humid} 
-                                sky     ={props.sky} 
-                                high    ={props.high}
-                                low     ={props.low}
-                                wind    ={props.wind}
-                                icon    ={props.icon}
+                    <Table      humid   ={props.humid} sky     ={props.sky} 
+                                high    ={props.high}  low     ={props.low}
+                                wind    ={props.wind}  icon    ={props.icon}
                                 />
-             
         </div>
  
         );

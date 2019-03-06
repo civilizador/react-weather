@@ -21,8 +21,9 @@ div.inline {
     margin-bottom: 8vh;
 } 
 
-h2.rightAlign {
-     margin-left: 5px !important;
-    border: 2px solid white;
-    width: 120px;
+.btn-group {
+    width: 80%!important;
+}
+.onethird {
+    width: 33.3%!important;
 }

@@ -4,6 +4,7 @@ import $ from 'jquery';
 import keys from "./config/keys";
 import WeatherData from './WeatherData';
 import Spinner from './Spinner';
+import SearchBar from './SearchBar';
     // defining main class component App
     class App extends React.Component {
     
@@ -30,9 +31,42 @@ import Spinner from './Spinner';
         // In this particular case, once App component did render we will get users
         // geoLocation data and then perfrm api call to get appropriate weather data
     
-    componentDidMount() {
-        
-       
+   
+    // Method that deturmines what exactly to render depending on location sharing settings user choosed.
+    renderContent() {
+        if(this.state.errMessage && !this.state.lat) {
+        // We have condiitonal rendering here. If there is an error and no coordinates was recieved render error related elements.
+            return ( <Spinner message={this.state.errMessage}/>
+            )
+        }
+        if(!this.state.errMessage && this.state.lat) {
+            return  (
+            <div>
+                <div id="mainframeDiv">
+                    <SearchBar /> 
+                    <WeatherData   city    ={this.state.city} country ={this.state.country} state   ={this.state.state}  
+                                    far     ={this.state.far}  cel     ={this.state.cel}
+                                    desc    ={this.state.desc} humid   ={this.state.humid}  sky     ={this.state.sky} 
+                                    high    ={this.state.high} low     ={this.state.low} wind    ={this.state.wind}
+                                    icon    ={this.state.icon} system  ={this.state.system} />
+                 </div>
+            </div>
+                )
+                
+        }
+        return <Spinner message='Please allow location sharing in order app to work'/> 
+    }
+    
+// React Render method
+    render() {
+        return(
+            <div>
+                {this.renderContent()}
+            </div>
+            )
+    } 
+     componentDidMount() {
+         
         // Getting User's current location information from window object and passing it as a  'position' object to callback function.
         window.navigator.geolocation.getCurrentPosition(
             async (position) => {
@@ -84,50 +118,6 @@ import Spinner from './Spinner';
     componentDidUpdate() {
         console.log('Component was UPDATED with weather data or was denied to provide it successfully')        
     }
-    // Method that deturmines what exactly to render depending on location sharing settings user choosed.
-    renderContent() {
-        if(this.state.errMessage && !this.state.lat) {
-        // We have condiitonal rendering here. If there is an error and no coordinates was recieved render error related elements.
-            return ( <Spinner message={this.state.errMessage}/>
-            )
-        }
-        if(!this.state.errMessage && this.state.lat) {
-            let d = new Date(); const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-            return  (
-            <div>
-                <div id="mainframeDiv">
-                <h2 className='rightAlign'>{d.getDate()} {months[d.getMonth()]}</h2>
-                    <button id='F'  className="btn btn-secondary"> F </button>
-                    <button id='C'   className="btn btn-secondary"> C </button>
-                    <WeatherData   city    ={this.state.city}
-                                    country ={this.state.country}
-                                    state   ={this.state.state}  
-                                    far     ={this.state.far} 
-                                    cel     ={this.state.cel}
-                                    desc    ={this.state.desc}
-                                    humid   ={this.state.humid} 
-                                    sky     ={this.state.sky} 
-                                    high    ={this.state.high}
-                                    low     ={this.state.low}
-                                    wind    ={this.state.wind}
-                                    icon    ={this.state.icon}
-                                    system  ={this.state.system} />
-                 </div>
-            </div>
-                )
-        }
-        return <Spinner message='Please allow location sharing in order app to work'/> 
-    }
-    
-// React Render method
-    render() {
-        return(
-            <div>
-                {this.renderContent()}
-            </div>
-            )
-        
-    } 
 }
      
     
@@ -135,3 +125,4 @@ import Spinner from './Spinner';
 ReactDOM.render(<App />, document.getElementById('root'));
 
  
+// zip: https://weather.cit.api.here.com/weather/1.0/report.json?product=observation&zipcode=10025&oneobservation=true&app_id=DemoAppId01082013GAL&app_code=AJKnXv84fjrb0KIHawS0Tg

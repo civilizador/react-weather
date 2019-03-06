@@ -5,12 +5,15 @@ import keys from "./config/keys";
 import WeatherData from './WeatherData';
 import Spinner from './Spinner';
 import SearchBar from './SearchBar';
+let latitude;
+let longitude;
+let data_weather;
     // defining main class component App
     class App extends React.Component {
     
     // Method 1 of initializing state - No consructor function!
         state = {
-                lat:null, lng:null, cel:null, far:null, low:null, high:null,
+                cel:null, far:null, low:null, high:null,
                 city:null, state:null, country:null, sky:null, desc:null, humid:null, wind:null,
                 errMessage:null, icon:null, system:null
         }
@@ -62,20 +65,29 @@ import SearchBar from './SearchBar';
             )
     } 
      componentDidMount() {
-         
         // Getting User's current location information from window object and passing it as a  'position' object to callback function.
         window.navigator.geolocation.getCurrentPosition(
-            async (position) => {
+              (position) => {
+                 latitude =   position.coords.latitude;
+                 longitude =   position.coords.latitude;
+                  fetchData(latitude,longitude)
         // Making an API call to get weather data and saving result to data_weather variable.
-              let data_weather = await $.ajax({
+             },
+            (err) => { 
+                 this.setState({errMessage: err.message});
+             }
+        )
+          
+        async function fetchData(latitude,longitude){
+             data_weather = await $.ajax({
               url: 'https://weather.cit.api.here.com/weather/1.0/report.json',
               type: 'GET',
               dataType: 'jsonp',
               jsonp: 'jsonpcallback',
               data: {
                     product: 'observation',
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude,
+                    latitude: latitude,
+                    longitude: longitude,
                     oneobservation: 'true',
                     app_id: keys.app_id,
                     app_code: keys.app_code
@@ -85,9 +97,6 @@ import SearchBar from './SearchBar';
                  }
             });
             // Updating states with setState
-            
-                this.setState({lat: position.coords.latitude});
-                this.setState({lng: position.coords.longitude});
                 this.setState({cel: data_weather.observations.location[0].observation[0].temperature });
                 this.setState({far: (data_weather.observations.location[0].observation[0].temperature*9/5) + 32 });
                 this.setState({humid: data_weather.observations.location[0].observation[0].humidity});
@@ -101,11 +110,7 @@ import SearchBar from './SearchBar';
                 this.setState({low: data_weather.observations.location[0].observation[0].lowTemperature});
                 this.setState({high: data_weather.observations.location[0].observation[0].highTemperature});
                 this.setState({system: 'imperial'});
-             },
-            (err) => { 
-                 this.setState({errMessage: err.message});
-             }
-        )
+        }
     }
     // ----------------------------------- 
     //      End of componentDidMount

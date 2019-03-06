@@ -13,7 +13,7 @@ import React from 'react';
                             <button type="button" className="btn btn-secondary onethird"><h1>  {this.state.temperature} </h1> </button>
                             <button type="button" className="btn btn-secondary onethird">
                                 <div className="input-group mb-3">
-                                    <input  value={this.state.term} maxLength="5" onChange={e => this.setState({zipcode: e.target.value }) } className="form-control" placeholder="zipcode" />
+                                    <input type="numbers"  value={this.state.zipcode} maxLength="5" onChange={e => this.setState({zipcode: e.target.value.replace(/\D/g,'') }) } className="form-control" placeholder="zipcode" />
                                     <div className="input-group-append">
                                         <button className="btn btn-outline-warning" type="button" id="button-addon2">Button</button>
                                     </div>

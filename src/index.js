@@ -43,9 +43,9 @@ import SearchBar from './SearchBar';
             return  (
             <div>
                 <div id="mainframeDiv">
-                    <SearchBar /> 
+                    <SearchBar temp={this.state.cel} /> 
                     <WeatherData   city    ={this.state.city} country ={this.state.country} state   ={this.state.state}  
-                                    far     ={this.state.far}  cel     ={this.state.cel}
+                                    far     ={this.state.far}  
                                     desc    ={this.state.desc} humid   ={this.state.humid}  sky     ={this.state.sky} 
                                     high    ={this.state.high} low     ={this.state.low} wind    ={this.state.wind}
                                     icon    ={this.state.icon} system  ={this.state.system} />
@@ -89,6 +89,7 @@ import SearchBar from './SearchBar';
                  }
             });
             // Updating states with setState
+            
                 this.setState({lat: position.coords.latitude});
                 this.setState({lng: position.coords.longitude});
                 this.setState({cel: data_weather.observations.location[0].observation[0].temperature });
@@ -116,8 +117,7 @@ import SearchBar from './SearchBar';
     
     // componentDidUpdate method will be called once component gets updates and being rerendered.    
     componentDidUpdate() {
-        console.log('Component was UPDATED with weather data or was denied to provide it successfully')        
-    }
+     }
 }
      
     

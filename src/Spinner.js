@@ -1,8 +1,8 @@
 import React from 'react';
     const Spinner = (props) => {
         return ( 
-                  <div class="ui active dimmer">
-                    <div class="ui text loader">{props.message}</div>
+                  <div className="ui active dimmer">
+                    <div className="ui text loader">{props.message}</div>
                   </div>
             )
     }

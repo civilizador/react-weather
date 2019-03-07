@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
+import axios from 'axios';
 import keys from "./config/keys";
 import WeatherData from './WeatherData';
 import Spinner from './Spinner';
@@ -8,21 +9,41 @@ import SearchBar from './SearchBar';
     // defining main class component App
     class App extends React.Component {
     
-    // Method 1 of initializing state - No consructor function!
+    // initializing state 
         state = {
                 lat:null, lng:null, cel:null, far:null, low:null, high:null,
                 city:null, state:null, country:null, sky:null, desc:null, humid:null, wind:null,
                 errMessage:null, icon:null, system:null
         }
-    // Method 2 of initializing state - With constructor function!
-        // constructor(props) {
-        //     super(props);
-        //     // Initializing State. 
-        //      this.state={
-        //         lat:null,lng:null,cel:null,far:null,city:null,sky:null,humid: null, desc:null,country:null,state: null, errMessage:null,
-        //     }
-        // }
-        
+    // 
+      getPositions = async(data)=>{
+         var data_weather = await $.ajax({
+              url: 'https://weather.cit.api.here.com/weather/1.0/report.json',
+              type: 'GET',
+              dataType: 'jsonp',
+              jsonp: 'jsonpcallback',
+              data,
+                success: function (data) {
+                    console.log(data)
+                    return data;
+                
+                 }
+            });
+            
+                this.setState({cel: data_weather.observations.location[0].observation[0].temperature });
+                this.setState({far: (data_weather.observations.location[0].observation[0].temperature*9/5) + 32 });
+                this.setState({humid: data_weather.observations.location[0].observation[0].humidity});
+                this.setState({city: data_weather.observations.location[0].observation[0].city});
+                this.setState({sky:  data_weather.observations.location[0].observation[0].skyDescription });
+                this.setState({desc: data_weather.observations.location[0].observation[0].temperatureDesc });
+                this.setState({country: data_weather.observations.location[0].observation[0].country});
+                this.setState({state: data_weather.observations.location[0].observation[0].state});
+                this.setState({icon: data_weather.observations.location[0].observation[0].iconLink });
+                this.setState({wind: data_weather.observations.location[0].observation[0].windSpeed});
+                this.setState({low: data_weather.observations.location[0].observation[0].lowTemperature});
+                this.setState({high: data_weather.observations.location[0].observation[0].highTemperature});
+                this.setState({system: 'imperial'});
+    }
 // Lifecycle methods 
     // ----------------------------------- 
     //      componentDidMount method
@@ -39,7 +60,7 @@ import SearchBar from './SearchBar';
             return  (
             <div>
                 <div id="mainframeDiv">
-                    <SearchBar temp={this.state.cel} /> 
+                    <SearchBar  getPositions = {this.getPositions} temp={this.state.cel} /> 
                     <WeatherData   city    ={this.state.city} country ={this.state.country} state   ={this.state.state}  
                                     far     ={this.state.far}  
                                     desc    ={this.state.desc} humid   ={this.state.humid}  sky     ={this.state.sky} 
@@ -66,41 +87,20 @@ import SearchBar from './SearchBar';
         // Getting User's current location information from window object and passing it as a  'position' object to callback function.
         window.navigator.geolocation.getCurrentPosition(
             async (position) => {
-        // Making an API call to get weather data and saving result to data_weather variable.
-              let data_weather = await $.ajax({
-              url: 'https://weather.cit.api.here.com/weather/1.0/report.json',
-              type: 'GET',
-              dataType: 'jsonp',
-              jsonp: 'jsonpcallback',
-              data: {
+               let  data = await {
                     product: 'observation',
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude,
                     oneobservation: 'true',
                     app_id: keys.app_id,
                     app_code: keys.app_code
-                },
-                success: function (data) {
-                    return data;
-                 }
-            });
-            // Updating states with setState
-            
+                }
+                
                 this.setState({lat: position.coords.latitude});
                 this.setState({lng: position.coords.longitude});
-                this.setState({cel: data_weather.observations.location[0].observation[0].temperature });
-                this.setState({far: (data_weather.observations.location[0].observation[0].temperature*9/5) + 32 });
-                this.setState({humid: data_weather.observations.location[0].observation[0].humidity});
-                this.setState({city: data_weather.observations.location[0].observation[0].city});
-                this.setState({sky:  data_weather.observations.location[0].observation[0].skyDescription });
-                this.setState({desc: data_weather.observations.location[0].observation[0].temperatureDesc });
-                this.setState({country: data_weather.observations.location[0].observation[0].country});
-                this.setState({state: data_weather.observations.location[0].observation[0].state});
-                this.setState({icon: data_weather.observations.location[0].observation[0].iconLink });
-                this.setState({wind: data_weather.observations.location[0].observation[0].windSpeed});
-                this.setState({low: data_weather.observations.location[0].observation[0].lowTemperature});
-                this.setState({high: data_weather.observations.location[0].observation[0].highTemperature});
-                this.setState({system: 'imperial'});
+           
+            await this.getPositions(data)
+               
              },
             (err) => { 
                  this.setState({errMessage: err.message});

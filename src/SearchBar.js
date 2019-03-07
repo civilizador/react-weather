@@ -1,5 +1,5 @@
 import React from 'react';
-import keys from "./config/keys";
+// import keys from "./config/keys";
   class SearchBar extends React.Component {
       state={ temperature: null, zipcode:'' }
       

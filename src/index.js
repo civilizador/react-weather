@@ -6,6 +6,9 @@ import keys from "./config/keys";
 import WeatherData from './WeatherData';
 import Spinner from './Spinner';
 import SearchBar from './SearchBar';
+const app_keys={ app_id: process.env.REACT_APP_APP_CODE,
+                    app_code: process.env.REACT_APP_APP_ID}
+console.log(typeof(process.env.REACT_APP_APP_CODE),app_keys)
     // defining main class component App
     class App extends React.Component {
     
@@ -92,10 +95,9 @@ import SearchBar from './SearchBar';
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude,
                     oneobservation: 'true',
-                    app_id: keys.app_id || process.env.app_id,
-                    app_code: keys.app_code || process.env.app_code
+                    app_id: app_keys.app_id,
+                    app_code: app_keys.app_code
                 }
-                
                 this.setState({lat: position.coords.latitude});
                 this.setState({lng: position.coords.longitude});
            

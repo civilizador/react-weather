@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import axios from 'axios';
-import keys from "./config/keys";
+// import keys from "./config/keys";
 import WeatherData from './WeatherData';
 import Spinner from './Spinner';
 import SearchBar from './SearchBar';

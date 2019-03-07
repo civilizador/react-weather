@@ -92,8 +92,8 @@ import SearchBar from './SearchBar';
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude,
                     oneobservation: 'true',
-                    app_id: keys.app_id,
-                    app_code: keys.app_code
+                    app_id: keys.app_id || process.env.app_id,
+                    app_code: keys.app_code || process.env.app_code
                 }
                 
                 this.setState({lat: position.coords.latitude});

@@ -1,5 +1,5 @@
 import React from 'react';
-// import keys from "./config/keys";
+import keys from "./config/keys";
   class SearchBar extends React.Component {
       state={ temperature: null, zipcode:'' }
       
@@ -9,8 +9,8 @@ import React from 'react';
                     zipcode: this.state.zipcode,
                     product: 'observation',
                     oneobservation: 'true',
-                    app_id: process.env.REACT_APP_APP_CODE,
-                    app_code: process.env.REACT_APP_APP_ID
+                    app_id: keys.app_id,
+                    app_code: keys.app_code
                 }
           this.props.getPositions(data)
       }

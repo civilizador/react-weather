@@ -22,8 +22,9 @@ class SearchBar extends React.Component {
                             <h2> {d.getDate()} {months[d.getMonth()]} </h2>
                                 <div className="btn-group">
                                     <div type="button" className="btn btn-secondary onethird"> 
-                                        <button id='F' onClick={ ()=>{this.props.changeSystem('imperial')} } className="btn btn-warning" data-toggle="button"> F </button>
-                                        <button id='C' onClick={ ()=>{this.props.changeSystem('metric')} }  className="btn btn-warning"> C </button></div>
+                                        <div id='F' onClick={ ()=>{this.props.changeSystem('imperial')} } className="col-md-5 btn btn-warning" data-toggle="button"> F </div>
+                                        <div id='C' onClick={ ()=>{this.props.changeSystem('metric')} }  className=" col-md-5 btn btn-warning"> C </div>
+                                        </div>
                                     <button type="button" className="btn btn-secondary onethird"><h1>  {this.props.temp} </h1> </button>
                                     <button type="button" className="btn btn-secondary onethird">
                                         <form onSubmit={this.onFormSubmit} >    

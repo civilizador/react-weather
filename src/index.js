@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
-import WeatherData from './WeatherData';
 import Spinner from './Spinner';
 import SearchBar from './SearchBar';
 var data_weather;
@@ -79,7 +78,6 @@ var data_weather;
                                     desc    ={this.state.desc} humid   ={this.state.humid}  sky     ={this.state.sky} 
                                     high    ={this.state.high} low     ={this.state.low} wind    ={this.state.wind}
                                     icon    ={this.state.icon} system  ={this.state.system} everything={this.state} /> 
-                    <WeatherData  state={this.state}  />
                  </div>
             </div>
                 )

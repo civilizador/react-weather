@@ -4,6 +4,7 @@
      margin-top: 20vh;
      padding-top: 5vh;
      margin-left: 20%;
+     padding-bottom: 10vh;
      text-align: center;
      border:1px solid white ;    
      border-radius: 25px;
@@ -12,6 +13,9 @@
 }
 h2,h1 {
     color: ivory;
+}
+i{
+    margin-right: 3vw!important;
 }
 div.inline {
     display: inline-block!important;
@@ -27,3 +31,41 @@ div.inline {
 .onethird {
     width: 33.3%!important;
 }
+
+.main_container {
+    width: 80%;
+    margin-left: 10%;
+    padding-left: 10%;
+    font-size: 2vw;
+}
+.weather_data
+{margin-bottom: 3vh;
+    margin-top: 3vh
+}
+.ivory {
+    color: ivory!important;
+    font-weight: 800;
+}
+
+/* If the screen size is 600px wide or less, set the font-size of <div> to 30px */
+@media screen and (max-width: 600px) {
+  .main_container {
+    font-size: 3vw!important;
+  }
+  h2 {
+      font-size: 3vw!important;
+  }
+  h1 {
+      font-size: 5vw!important;
+  }
+  input{
+      font-size: 3vw!important;
+      width: 90%;
+      float: right;
+      margin: 5px!important;
+  }
+  button.btn.btn-secondary.onethird {
+      padding: 0;
+  }
+}
+

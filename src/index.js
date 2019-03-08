@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
-import keys from "./config/keys";
 import WeatherData from './WeatherData';
 import Spinner from './Spinner';
 import SearchBar from './SearchBar';
 var data_weather;
+ 
     // defining main class component App
     class App extends React.Component {
     
@@ -106,8 +106,8 @@ var data_weather;
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude,
                     oneobservation: 'true',
-                    app_id: keys.app_id,
-                    app_code: keys.app_code
+                    app_id: process.env.REACT_APP_APP_ID,
+                    app_code: process.env.REACT_APP_APP_CODE
                 }
                 
                 this.setState({lat: position.coords.latitude});

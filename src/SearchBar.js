@@ -1,7 +1,6 @@
 import React from 'react';
 import Table from './Table'
-import keys from "./config/keys";
-  class SearchBar extends React.Component {
+class SearchBar extends React.Component {
       state={ temperature: null, zipcode:'' }
       
       onFormSubmit=async (event)=>{
@@ -12,8 +11,8 @@ import keys from "./config/keys";
                     zipcode: this.state.zipcode,
                     product: 'observation',
                     oneobservation: 'true',
-                    app_id: keys.app_id,
-                    app_code: keys.app_code
+                    app_id: process.env.REACT_APP_APP_ID,
+                    app_code: process.env.REACT_APP_APP_CODE
                 }
           this.props.getPositions(data)
       }
